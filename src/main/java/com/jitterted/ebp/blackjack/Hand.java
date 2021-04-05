@@ -31,8 +31,8 @@ public class Hand {
 
     return handValue;
   }
-  // Query Method: SNAPSHOT of the state
 
+  // Query Method: SNAPSHOT of the state
   public List<Card> cards() {
     return List.copyOf(cards);
   }
@@ -57,7 +57,4 @@ public class Hand {
     return hand.value() < value();
   }
 
-  public boolean valueEquals(int target) {
-    return value() == target;
-  }
 }
