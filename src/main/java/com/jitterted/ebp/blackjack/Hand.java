@@ -13,11 +13,7 @@ public class Hand {
   public Hand() {
   }
 
-  String displayValue() {
-    return String.valueOf(value());
-  }
-
-  private int value() {
+  public int value() {
     int handValue = cards
         .stream()
         .mapToInt(Card::rankValue)
