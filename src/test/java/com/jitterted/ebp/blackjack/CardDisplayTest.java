@@ -10,7 +10,7 @@ public class CardDisplayTest {
   public void displayAsTenCard() throws Exception {
     Card tenCard = new Card(Suit.CLUBS, Rank.TEN);
 
-    assertThat(tenCard.display())
+    assertThat(ConsoleCard.display(tenCard))
         .isEqualTo("[30m┌─────────┐[1B[11D│10       │[1B[11D│         │[1B[11D│    ♣    │[1B[11D│         │[1B[11D│       10│[1B[11D└─────────┘");
   }
 
@@ -18,7 +18,7 @@ public class CardDisplayTest {
   public void displayNonTenCard() throws Exception {
     Card threeCard = new Card(Suit.DIAMONDS, Rank.THREE);
 
-    assertThat(threeCard.display())
+    assertThat(ConsoleCard.display(threeCard))
         .isEqualTo("[31m┌─────────┐[1B[11D│3        │[1B[11D│         │[1B[11D│    ♦    │[1B[11D│         │[1B[11D│        3│[1B[11D└─────────┘");
   }
 }
