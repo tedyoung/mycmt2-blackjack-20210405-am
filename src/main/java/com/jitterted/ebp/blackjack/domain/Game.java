@@ -28,6 +28,7 @@ public class Game {
   }
 
   public GameOutcome determineOutcome() {
+    // throw exception if called when player isn't done/game is not yet over
     if (playerHand.isBlackjack()) {
       return GameOutcome.PLAYER_WINS_BLACKJACK;
     }
@@ -64,11 +65,13 @@ public class Game {
   }
 
   public void playerHits() {
+    // Guard: throw exception if player is done
     playerHand.drawFrom(deck);
     playerDone = playerHand.isBusted();
   }
 
   public void playerStands() {
+    // Guard: throw exception if player is done
     playerDone = true;
   }
 
