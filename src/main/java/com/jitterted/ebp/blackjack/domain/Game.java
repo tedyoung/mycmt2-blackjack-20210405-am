@@ -28,6 +28,9 @@ public class Game {
   }
 
   public GameOutcome determineOutcome() {
+    if (playerHand.value() == 21 && playerHand.cards().size() == 2) {
+      return GameOutcome.PLAYER_WINS_BLACKJACK;
+    }
     if (playerHand.isBusted()) {
       return GameOutcome.PLAYER_BUSTED;
     } else if (dealerHand.isBusted()) {
