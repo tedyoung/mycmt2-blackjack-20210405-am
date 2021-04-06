@@ -15,21 +15,40 @@ public class ConsoleGame {
     this.game = game;
   }
 
-  public static void resetScreen() {
-    System.out.println(ansi().reset());
+  public void start() {
+    displayWelcomeScreen();
+
+    game.initialDeal();
+
+    playerPlays();
+
+    game.dealerTurn();
+
+    displayFinalGameState();
+
+    System.out.println(game.determineOutcome());
+
+    resetScreen();
   }
 
-  public static void displayWelcomeScreen() {
-    System.out.println(ansi()
-                           .bgBright(Ansi.Color.WHITE)
-                           .eraseScreen()
-                           .cursor(1, 1)
-                           .fgGreen().a("Welcome to")
-                           .fgRed().a(" Jitterted's")
-                           .fgBlack().a(" BlackJack"));
+  private void playerPlays() {
+    while (!game.isPlayerDone()) {
+      displayGameState();
+      String command = inputFromPlayer();
+      handle(command);
+    }
   }
 
-  public static void displayFinalGameState(Game game) {
+  // Translating external events (keystrokes) into Domain commands/queries
+  private void handle(String command) {
+    if (command.toLowerCase().startsWith("h")) {
+      game.playerHits();
+    } else if (command.toLowerCase().startsWith("s")) {
+      game.playerStands();
+    }
+  }
+
+  private void displayFinalGameState() {
     System.out.print(ansi().eraseScreen().cursor(1, 1));
     System.out.println("Dealer has: ");
     System.out.println(ConsoleHand.cardsAsString(game.dealerHand()));
@@ -40,8 +59,7 @@ public class ConsoleGame {
     System.out.println(ConsoleHand.cardsAsString(game.playerHand()));
     System.out.println(" (" + game.playerHand().value() + ")");
   }
-
-  public static void displayGameState(Game game) {
+  private void displayGameState() {
     System.out.print(ansi().eraseScreen().cursor(1, 1));
     System.out.println("Dealer has: ");
     System.out.println(ConsoleHand.displayFirstCard(game.dealerHand())); // first card is Face Up
@@ -55,7 +73,7 @@ public class ConsoleGame {
     System.out.println(" (" + game.playerHand().value() + ")");
   }
 
-  private static void displayBackOfCard() {
+  private void displayBackOfCard() {
     System.out.print(
         ansi()
             .cursorUp(7)
@@ -69,43 +87,23 @@ public class ConsoleGame {
             .a("└─────────┘"));
   }
 
-  public static String inputFromPlayer() {
+  private void resetScreen() {
+    System.out.println(ansi().reset());
+  }
+
+  private void displayWelcomeScreen() {
+    System.out.println(ansi()
+                           .bgBright(Ansi.Color.WHITE)
+                           .eraseScreen()
+                           .cursor(1, 1)
+                           .fgGreen().a("Welcome to")
+                           .fgRed().a(" Jitterted's")
+                           .fgBlack().a(" BlackJack"));
+  }
+
+  private String inputFromPlayer() {
     System.out.println("[H]it or [S]tand?");
     Scanner scanner = new Scanner(System.in);
     return scanner.nextLine();
   }
-
-  public void start() {
-    displayWelcomeScreen();
-
-    game.initialDeal();
-
-    playerPlays();
-
-    game.dealerTurn();
-
-    displayFinalGameState(game);
-
-    System.out.println(game.determineOutcome());
-
-    resetScreen();
-  }
-
-  public void playerPlays() {
-    while (!game.isPlayerDone()) {
-      displayGameState(game);
-      String command = inputFromPlayer();
-      handle(command);
-    }
-  }
-
-  // Translating external events (keystrokes) into Domain commands/queries
-  public void handle(String command) {
-    if (command.toLowerCase().startsWith("h")) {
-      game.playerHits();
-    } else if (command.toLowerCase().startsWith("s")) {
-      game.playerStands();
-    }
-  }
-
 }
