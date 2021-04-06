@@ -28,20 +28,22 @@ public class Game {
   }
 
   public GameOutcome determineOutcome() {
-    if (playerHand.value() == 21 && playerHand.cards().size() == 2) {
+    if (playerHand.isBlackjack()) {
       return GameOutcome.PLAYER_WINS_BLACKJACK;
     }
     if (playerHand.isBusted()) {
       return GameOutcome.PLAYER_BUSTED;
-    } else if (dealerHand.isBusted()) {
-      return GameOutcome.DEALER_BUSTED;
-    } else if (playerHand.beats(dealerHand)) {
-      return GameOutcome.PLAYER_BEATS_DEALER;
-    } else if (playerHand.pushes(dealerHand)) {
-      return GameOutcome.PLAYER_PUSHES;
-    } else {
-      return GameOutcome.PLAYER_LOSES;
     }
+    if (dealerHand.isBusted()) {
+      return GameOutcome.DEALER_BUSTED;
+    }
+    if (playerHand.beats(dealerHand)) {
+      return GameOutcome.PLAYER_BEATS_DEALER;
+    }
+    if (playerHand.pushes(dealerHand)) {
+      return GameOutcome.PLAYER_PUSHES;
+    }
+    return GameOutcome.PLAYER_LOSES;
   }
 
   public void dealerTurn() {
