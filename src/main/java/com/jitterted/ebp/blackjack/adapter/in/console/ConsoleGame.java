@@ -1,4 +1,6 @@
-package com.jitterted.ebp.blackjack;
+package com.jitterted.ebp.blackjack.adapter.in.console;
+
+import com.jitterted.ebp.blackjack.domain.Game;
 
 public class ConsoleGame {
 
@@ -32,6 +34,7 @@ public class ConsoleGame {
     }
   }
 
+  // Translating external events (keystrokes) into Domain commands/queries
   public void handle(String command) {
     if (command.toLowerCase().startsWith("h")) {
       game.playerHits();
